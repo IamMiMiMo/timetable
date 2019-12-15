@@ -11,7 +11,7 @@ var courseList = [
 		course:"Test2",
 		session:"L11",
 		day:[4],
-		period:1
+		period:2
 	},
 	{
 		course:"RAND" + random(0,9999),
@@ -90,16 +90,39 @@ function addToTable(index,color){
 	if(coursePeriod >= 2){
 		coursePeriod += 1;
 	}
+	//delete without re-delete the new course
+	removeCourse(courseCode);
 	for (var n = 0; n < courseDayList.length; n++){
-		for(var i = 0; i < table.rows[0].cells.length; i++){
+		for(var i = 0; i < table.rows[coursePeriod].cells.length; i++){
 			if(i == courseDayList[n]){
-				table.rows[coursePeriod].cells[courseDayList[n]].innerHTML = courseCode;
-				table.rows[coursePeriod].cells[courseDayList[n]].classList.add("bg-" + color + "-200");
+				var cell = table.rows[coursePeriod].cells[courseDayList[n]];
+				
+				//delete all associated courses in occupied cell
+				if (cell.innerHTML != courseCode){
+					removeCourse(cell.innerHTML);
+				}
+				cell.innerHTML = courseCode;
+				cell.classList.add("bg-" + color + "-200");
 				saveTable(coursePeriod,courseDayList[n],color);
 			}
 		}
 	}
 	
+}
+
+function removeCourse(code){
+	var table = document.getElementById("timetable");
+	for(var row = 1; row < table.rows.length; row++){
+		for(var col = 1; col < table.rows[row].cells.length; col++){
+			var cell = table.rows[row].cells[col];
+			console.log(cell.innerHTML);
+			if(cell.innerHTML == code){
+				cell.innerHTML = "";
+				cell.className = cell.className.replace(/\bbg-.*?\b/g, '');
+				localStorage.setItem("row-" + row + "-col-" + col,'');
+			}
+		}
+	}
 }
 
 function initOptions(){
