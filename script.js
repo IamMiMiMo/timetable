@@ -116,11 +116,10 @@ function removeCourse(code){
 	for(var row = 1; row < table.rows.length; row++){
 		for(var col = 1; col < table.rows[row].cells.length; col++){
 			var cell = table.rows[row].cells[col];
-			console.log(cell.innerHTML);
 			if(cell.innerHTML == code){
 				cell.innerHTML = "";
 				cell.className = cell.className.replace(/\bbg-.*?\b/g, '');
-				localStorage.setItem("row-" + row + "-col-" + col,'');
+				localStorage.setItem("row-" + row + "-col-" + col,null);
 			}
 		}
 	}
@@ -159,7 +158,10 @@ function initOptions(){
 
 function saveTable(row,col,color){
 	var table = document.getElementById("timetable");
-	localStorage.setItem("row-" + row + "-col-" + col,JSON.stringify([table.rows[row].cells[col].innerHTML,color]));
+	localStorage.setItem("row-" + row + "-col-" + col,JSON.stringify({
+		"course":table.rows[row].cells[col].innerHTML,
+		"color":color
+	}));
 }
 
 function loadTable(){
@@ -169,10 +171,10 @@ function loadTable(){
 			continue;
 		}
 		for(var col = 1; col < table.rows[row].cells.length; col++){
-			var items = JSON.parse(localStorage.getItem("row-" + row + "-col-" + col));
+			items = JSON.parse(localStorage.getItem("row-" + row + "-col-" + col));		
 			if (items != null){
-				table.rows[row].cells[col].innerHTML = items[0];
-				table.rows[row].cells[col].classList.add("bg-" + items[1] + "-200" );
+				table.rows[row].cells[col].innerHTML = items.course;
+				table.rows[row].cells[col].classList.add("bg-" + items.color + "-200" );
 			}
 		}
 	}
