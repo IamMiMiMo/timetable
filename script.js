@@ -5,61 +5,61 @@ var courseList = [
 		course:"Test1",
 		session:"L1",
 		day:[2,4],
-		period:2
+		period:[1,2]
 	},
 	{
 		course:"Test2",
 		session:"L11",
 		day:[4],
-		period:2
+		period:[2]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(0,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(0,5),
 		day:[random(1,7)],
-		period:random(1,2)
+		period:[random(1,2)]
 	}
 ];
 
@@ -86,29 +86,27 @@ if (table != null) {
 function addToTable(index,color){
 	var courseDayList = courseList[index].day;
 	var courseCode = courseList[index].course;
-	var coursePeriod = courseList[index].period;
+	var coursePeriodList = courseList[index].period;
 	var table = document.getElementById("timetable");
-	if(coursePeriod >= 2){
-		coursePeriod += 1;
-	}
 	//delete without re-delete the new course
 	removeCourse(courseCode);
-	for (var n = 0; n < courseDayList.length; n++){
-		for(var i = 0; i < table.rows[coursePeriod].cells.length; i++){
-			if(i == courseDayList[n]){
-				var cell = table.rows[coursePeriod].cells[courseDayList[n]];
-				
-				//delete all associated courses in occupied cell
-				if (cell.innerHTML != courseCode){
-					removeCourse(cell.innerHTML);
-				}
-				cell.innerHTML = courseCode;
-				cell.classList.add("bg-" + color + "-200");
-				saveTable(coursePeriod,courseDayList[n],color);
-			}
+	for(var x = 0; x < coursePeriodList.length; x++){
+		if(coursePeriodList[x] == 2){
+			coursePeriodList[x] = 3;
 		}
+		for (var n = 0; n < courseDayList.length; n++){
+			console.log("row=",coursePeriodList[x],"/ col=",courseDayList[n]);
+			var cell = table.rows[coursePeriodList[x]].cells[courseDayList[n]];
+			//delete all associated courses in occupied cell
+			if (cell.innerHTML != courseCode){
+				removeCourse(cell.innerHTML);
+			}
+			cell.innerHTML = courseCode;
+			cell.classList.add("bg-" + color + "-200");
+			saveTable(coursePeriodList[x],courseDayList[n],color);
+		}
+
 	}
-	
 }
 
 function removeCourse(code){
@@ -184,7 +182,7 @@ function loadTable(){
 		}
 		for(var col = 1; col < table.rows[row].cells.length; col++){
 			items = JSON.parse(localStorage.getItem("row-" + row + "-col-" + col));		
-			if (items != null){
+			if (items != undefined || items != null){
 				table.rows[row].cells[col].innerHTML = items.course;
 				table.rows[row].cells[col].classList.add("bg-" + items.color + "-200" );
 			}
