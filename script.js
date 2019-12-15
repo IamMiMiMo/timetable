@@ -83,10 +83,10 @@ if (table != null) {
 }
 
 function addToTable(index,color){
-	courseDay = courseList[index].day;
-	courseCode = courseList[index].course;
-	coursePeriod = courseList[index].period;
-	table = document.getElementById("timetable");
+	var courseDay = courseList[index].day;
+	var courseCode = courseList[index].course;
+	var coursePeriod = courseList[index].period;
+	var table = document.getElementById("timetable");
 	if(coursePeriod >= 2){
 		coursePeriod += 1;
 	}
@@ -96,6 +96,7 @@ function addToTable(index,color){
 			table.rows[coursePeriod].cells[courseDay].classList.add("bg-" + color + "-200");
 		}
 	}
+	saveTable();
 }
 
 function initOptions(){
@@ -122,7 +123,32 @@ function initOptions(){
 		session.classList.add("inline-block","px-3","py-1","font-semibold","rounded-full","bg-" + color + "-100","text-gray-700");
 		session.innerHTML = courseList[i].session;
 		document.getElementById(card.id).appendChild(session);
-		
+	}
+	loadTable();
+}
+
+function saveTable(){
+	var table = document.getElementById("timetable");
+	for(var row = 1; row < table.rows.length; row++){
+		if (row==2){
+			continue;
+		}
+		for(var col = 1; col < table.rows[row].cells.length; col++){
+			//console.log(table.rows[row].cells[col].innerHTML)
+			localStorage.setItem("row-" + row + "-col-" + col,table.rows[row].cells[col].innerHTML);
+		}
+	}
+}
+
+function loadTable(){
+	var table = document.getElementById("timetable");
+	for(var row = 1; row < table.rows.length; row++){
+		if (row==2){
+			continue;
+		}
+		for(var col = 1; col < table.rows[row].cells.length; col++){
+			table.rows[row].cells[col].innerHTML = localStorage.getItem("row-" + row + "-col-" + col);
+		}
 	}
 }
 
