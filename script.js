@@ -4,61 +4,61 @@ var courseList = [
 	{
 		course:"Test1",
 		session:"L1",
-		day:2,
+		day:[2,4],
 		period:2
 	},
 	{
 		course:"Test2",
 		session:"L11",
-		day:4,
+		day:[4],
 		period:1
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(0,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(1,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	},
 	{
 		course:"RAND" + random(0,9999),
 		session:"L" + random(0,5),
-		day:random(1,7),
+		day:[random(1,7)],
 		period:random(1,2)
 	}
 ];
@@ -83,17 +83,19 @@ if (table != null) {
 }
 
 function addToTable(index,color){
-	var courseDay = courseList[index].day;
+	var courseDayList = courseList[index].day;
 	var courseCode = courseList[index].course;
 	var coursePeriod = courseList[index].period;
 	var table = document.getElementById("timetable");
 	if(coursePeriod >= 2){
 		coursePeriod += 1;
 	}
-	for(var i = 0; i < table.rows[0].cells.length; i++){
-		if(i == courseDay){
-			table.rows[coursePeriod].cells[courseDay].innerHTML = courseCode;
-			table.rows[coursePeriod].cells[courseDay].classList.add("bg-" + color + "-200");
+	for (var n = 0; n < courseDayList.length; n++){
+		for(var i = 0; i < table.rows[0].cells.length; i++){
+			if(i == courseDayList[n]){
+				table.rows[coursePeriod].cells[courseDayList[n]].innerHTML = courseCode;
+				table.rows[coursePeriod].cells[courseDayList[n]].classList.add("bg-" + color + "-200");
+			}
 		}
 	}
 	saveTable();
@@ -116,7 +118,10 @@ function initOptions(){
 
 		var day = document.createElement('div');
 		day.classList.add("inline-block","px-3","py-1","mr-2","font-semibold","rounded-full","bg-" + color + "-100","text-gray-700");
-		day.innerHTML = DAYS[courseList[i].day];
+		day.innerHTML += DAYS[courseList[i].day[0]];
+		for (var n = 1; n < courseList[i].day.length; n++){
+			day.innerHTML += "/" + DAYS[courseList[i].day[n]];
+		}
 		document.getElementById(card.id).appendChild(day);
 
 		var session = document.createElement('div');
@@ -134,7 +139,6 @@ function saveTable(){
 			continue;
 		}
 		for(var col = 1; col < table.rows[row].cells.length; col++){
-			//console.log(table.rows[row].cells[col].innerHTML)
 			localStorage.setItem("row-" + row + "-col-" + col,table.rows[row].cells[col].innerHTML);
 		}
 	}
