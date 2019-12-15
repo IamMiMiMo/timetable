@@ -156,6 +156,18 @@ function initOptions(){
 	loadTable();
 }
 
+function clearTable(){
+	var table = document.getElementById("timetable");
+	for(var row = 1; row < table.rows.length; row++){
+		for(var col = 1; col < table.rows[row].cells.length; col++){
+			var cell = table.rows[row].cells[col];
+				cell.innerHTML = "";
+				cell.className = cell.className.replace(/\bbg-.*?\b/g, '');
+				localStorage.setItem("row-" + row + "-col-" + col,null);
+		}
+	}
+}
+
 function saveTable(row,col,color){
 	var table = document.getElementById("timetable");
 	localStorage.setItem("row-" + row + "-col-" + col,JSON.stringify({
