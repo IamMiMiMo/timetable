@@ -74,6 +74,7 @@ if (table != null) {
         table.rows[i].cells[j].onclick = function () {
         	var result = confirm("Are you sure to delete?");
         	if(result){
+        		removeCourse(this.innerHTML);
 	            this.innerHTML = "";
 	        }else{
 	        	return;
