@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Timetable</title>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body onload="initOptions()">
+	<div class="flex flex-col-reverse lg:flex-row w-full h-full">
+		<div id="optionColumn" class="w-full lg:w-3/12 overflow-y-auto lg:max-h-screen">
+			<!--
+			<div class="max-w-full block rounded shadow-lg px-4 py-6 m-4 border border-red-500 bg-red-200">
+				<p class="text-xl font-bold mb-2">
+					COMP1021
+				</p>
+				<div class="inline-block px-3 py-1 mr-2 font-semibold rounded-full bg-red-100 text-gray-700">
+					L1
+				</div>
+				<div class="inline-block px-3 py-1 font-semibold rounded-full bg-red-100 text-gray-700">
+					Thur P2
+				</div>
+			</div>
+			-->
+		</div>
+		<div class="overflow-x-auto lg:overflow-hidden w-full lg:w-9/12">
+			<table id="timetable" class="table-auto w-full">
+			  <tr>
+			    <th class=""></th>
+			    <th class="py-2 px-4">Monday</th>
+			    <th class="py-2 px-4">Tuesday</th>
+			    <th class="py-2 px-4">Wednesday</th>
+			    <th class="py-2 px-4">Thursday</th>
+			    <th class="py-2 px-4">Friday</th>
+			    <th class="py-2 px-4">Saturaday</th>
+			    <th class="py-4 px-4">Sunday</th>
+			  </tr>
+			  <tr>
+			    <td class="border px-4 py-2 text-center py-4">P1</td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			  </tr>
+			  <tr>
+			    <td class="border px-4 py-2 text-center" colspan="8">Lunch</td>
+			  </tr>
+			  <tr>
+			    <td class="border px-4 py-2 text-center py-4">P2</td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			    <td class="border px-4 py-2 text-center py-4"></td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
