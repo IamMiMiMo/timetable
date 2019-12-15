@@ -95,10 +95,11 @@ function addToTable(index,color){
 			if(i == courseDayList[n]){
 				table.rows[coursePeriod].cells[courseDayList[n]].innerHTML = courseCode;
 				table.rows[coursePeriod].cells[courseDayList[n]].classList.add("bg-" + color + "-200");
+				saveTable(coursePeriod,courseDayList[n],color);
 			}
 		}
 	}
-	saveTable();
+	
 }
 
 function initOptions(){
@@ -132,16 +133,9 @@ function initOptions(){
 	loadTable();
 }
 
-function saveTable(){
+function saveTable(row,col,color){
 	var table = document.getElementById("timetable");
-	for(var row = 1; row < table.rows.length; row++){
-		if (row==2){
-			continue;
-		}
-		for(var col = 1; col < table.rows[row].cells.length; col++){
-			localStorage.setItem("row-" + row + "-col-" + col,table.rows[row].cells[col].innerHTML);
-		}
-	}
+	localStorage.setItem("row-" + row + "-col-" + col,JSON.stringify([table.rows[row].cells[col].innerHTML,color]));
 }
 
 function loadTable(){
@@ -151,7 +145,11 @@ function loadTable(){
 			continue;
 		}
 		for(var col = 1; col < table.rows[row].cells.length; col++){
-			table.rows[row].cells[col].innerHTML = localStorage.getItem("row-" + row + "-col-" + col);
+			var items = JSON.parse(localStorage.getItem("row-" + row + "-col-" + col));
+			if (items != null){
+				table.rows[row].cells[col].innerHTML = items[0];
+				table.rows[row].cells[col].classList.add("bg-" + items[1] + "-200" );
+			}
 		}
 	}
 }
