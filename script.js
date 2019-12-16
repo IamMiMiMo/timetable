@@ -63,25 +63,31 @@ var courseList = [
 	}
 ];
 
-//delete table cell function
-var table = document.getElementById("timetable");
-if (table != null) {
-    for (var i = 1; i < table.rows.length; i++) {
-    	if (i==2){
-    		continue;
-    	}
-        for (var j = 1; j < table.rows[i].cells.length; j++)
-        table.rows[i].cells[j].onclick = function () {
-        	var result = confirm("Are you sure to delete?");
-        	if(result){
-        		removeCourse(this.innerHTML);
-	            this.innerHTML = "";
-	        }else{
-	        	return;
-	        }
-        };
-    }
+//delete table cell functio
+function addTableCellClickListener(){
+	var table = document.getElementById("timetable");
+	if (table != null) {
+	    for (var i = 1; i < table.rows.length; i++) {
+	        for (var j = 1; j < table.rows[i].cells.length; j++){
+	        	 table.rows[i].cells[j].addEventListener("click", deleteCell.bind(null,i,j) );
+		    }
+	    }
+	}
 }
+
+function deleteCell(row,col){
+	console.log("r = " + row + " / c = " + col);
+	cell = document.getElementById("timetable").rows[row].cells[col];
+	if (cell.innerHTML != ''){
+    	var result = confirm("Are you sure to delete?");
+    	if(result){
+    		removeCourse(cell.innerHTML);
+            cell.innerHTML = "";
+        }
+	}
+}
+
+
 
 function addToTable(index,color){
 	var courseDayList = courseList[index].day;
@@ -91,9 +97,6 @@ function addToTable(index,color){
 	//delete without re-delete the new course
 	removeCourse(courseCode);
 	for(var x = 0; x < coursePeriodList.length; x++){
-		if(coursePeriodList[x] == 2){
-			coursePeriodList[x] = 3;
-		}
 		for (var n = 0; n < courseDayList.length; n++){
 			console.log("row=",coursePeriodList[x],"/ col=",courseDayList[n]);
 			var cell = table.rows[coursePeriodList[x]].cells[courseDayList[n]];
@@ -151,6 +154,7 @@ function initOptions(){
 		session.innerHTML = courseList[i].session;
 		document.getElementById(card.id).appendChild(session);
 	}
+	addTableCellClickListener();
 	loadTable();
 }
 
@@ -177,9 +181,6 @@ function saveTable(row,col,color){
 function loadTable(){
 	var table = document.getElementById("timetable");
 	for(var row = 1; row < table.rows.length; row++){
-		if (row==2){
-			continue;
-		}
 		for(var col = 1; col < table.rows[row].cells.length; col++){
 			items = JSON.parse(localStorage.getItem("row-" + row + "-col-" + col));		
 			if (items != undefined || items != null){
