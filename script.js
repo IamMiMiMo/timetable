@@ -164,9 +164,11 @@ function createTable(){
 	for (var numberOfRow = 1; numberOfRow <= numberOfSessions; numberOfRow++){
 		row = table.insertRow(numberOfRow);
 		var cellList = [];
-		cellList[0] = row.insertCell(0);
+		var cell = document.createElement("th");
+    	cellList[0] = row.appendChild(cell);
+		//cellList[0] = row.insertCell(0);
 		cellList[0].innerHTML = "P" + numberOfRow;
-		cellList[0].classList.add("border","px-4","py-2","text-center","py-4");
+		cellList[0].classList.add("border","px-4","py-2","text-center","py-4","left-0","bg-white","sticky","border-separate");
 		for (var col = 1; col < table.rows[0].cells.length; col++){
 			cellList[col]  = row.insertCell(col);
 			cellList[col].classList.add("border","px-4","py-2","text-center","py-4");
