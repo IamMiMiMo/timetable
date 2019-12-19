@@ -1,3 +1,6 @@
+html, body{
+    height:100%;
+}
 .max-h-6-12{
 	max-height:50vh;
 }

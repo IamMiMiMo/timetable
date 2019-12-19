@@ -243,3 +243,12 @@ function loadTable(){
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
+
+function hideMenu(){
+	var menu = document.getElementById('menuContent');
+	if (menu.classList.contains("hidden")){
+		menu.classList.replace("hidden","block");
+	}else{
+		menu.classList.replace("block","hidden");
+	}
+}
