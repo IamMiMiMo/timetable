@@ -1,80 +1,33 @@
 var colorList = ["gray","red","orange","yellow","green","teal","blue","indigo","purple","pink"];
 const DAYS = [null,"Monday","Tuesday","Wednesday","Thurday","Friday","Saturday","Sunday"];
 var courseList = [
-	{
+	/*{
 		course:"Test1",
 		session:"L1",
 		day:[2,4],
 		period:[1,2]
-	},
-	{
-		course:"Test2",
-		session:"L11",
-		day:[4],
-		period:[2]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(0,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(1,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	},
-	{
-		course:"RAND" + random(0,9999),
-		session:"L" + random(0,5),
-		day:[random(1,7)],
-		period:[random(1,2)]
-	}
+	},*/
 ];
 
 function init(){
-	initOptions();
 	createTable();
+	initPeriodCheckbox();
+	courseList = JSON.parse(localStorage.getItem("courseList"));
+	if (courseList != undefined && courseList != null && courseList.length > 0){
+		refreshOptions();
+	}else{
+		courseList = [];
+	}
 }
 
-function initOptions(){
+function refreshOptions(){
+	document.getElementById("optionColumn").innerHTML = "";
 	for(var i = 0; i < courseList.length; i++){
 		var color = colorList[random(0,9)];
 
 		var card = document.createElement('div');
 		card.classList.add("max-w-full","block","cursor-pointer","rounded","shadow-lg","px-4" ,"py-6" ,"m-4" ,"border" ,"border-" + color + "-500" ,"bg-" + color + "-200", "hover:bg-" + color + "-300");
-		card.id = courseList[i].course + "-" + courseList[i].session;
+		card.id = i;
 		card.addEventListener("click", addToTable.bind(null,i,color) );
 		document.getElementById("optionColumn").appendChild(card);
 
@@ -96,6 +49,49 @@ function initOptions(){
 		session.innerHTML = courseList[i].session;
 		document.getElementById(card.id).appendChild(session);
 	}
+}
+
+function saveOptions(){
+	localStorage.setItem("courseList",JSON.stringify(courseList));
+}
+
+function initPeriodCheckbox(){
+	var numberOfPeriods = localStorage.getItem("numberOfPeriods");
+	var div = document.getElementById("periodCheckbox")
+	for (var i=0; i<numberOfPeriods; i++){
+		div.innerHTML += '<div class="block"><input class="leading-tight mr-2" type="checkbox" id="checkboxP' + i +'" name="periodCheckbox"><label class="text-sm select-none" for="checkboxP'
+			+ i + '">P' + (i+1) +'</label></input></div>'
+	}
+}
+
+function course(course,session,day,period){
+	this.course = course;
+	this.session = session;
+	this.day = day;
+	this.period = period;
+}
+
+function addToCourseList(){
+	var form  = document.forms.courseForm;
+	var days = [];
+	var dayCheckboxes = document.getElementsByName("dayCheckbox");
+	for(var i=0, n=dayCheckboxes.length;i<n;i++) {
+		if (dayCheckboxes[i].checked){
+			days.push(i+1);
+		}
+	}
+	var periods = [];
+	periodCheckboxes = document.getElementsByName("periodCheckbox");
+	for(var i=0, n=periodCheckboxes.length;i<n;i++) {
+		if (periodCheckboxes[i].checked){
+			periods.push(i+1);
+		}
+	}
+	var newCourse = new course(form.courseName.value,"L1",days,periods);
+	courseList.push(newCourse);
+	addToTable(courseList.length-1,"red");
+	refreshOptions();
+	saveOptions();
 }
 
 function deleteCell(row,col){
@@ -154,14 +150,14 @@ function removeCourse(code){
 }
 
 function createTable(){
-	var numberOfSessions = localStorage.getItem("numberOfSessions");
-	while(numberOfSessions == null || isNaN(numberOfSessions)){
-		numberOfSessions = prompt("Please enter the number of lessons", "");
+	var numberOfPeriods = localStorage.getItem("numberOfPeriods");
+	while(numberOfPeriods == null || isNaN(numberOfPeriods)){
+		numberOfPeriods = prompt("Please enter the number of lessons", "");
 	}
-	localStorage.setItem("numberOfSessions",numberOfSessions);
+	localStorage.setItem("numberOfPeriods",numberOfPeriods);
 	table = document.getElementById("timetable");
 	//number of session + 1 = total row of table
-	for (var numberOfRow = 1; numberOfRow <= numberOfSessions; numberOfRow++){
+	for (var numberOfRow = 1; numberOfRow <= numberOfPeriods; numberOfRow++){
 		row = table.insertRow(numberOfRow);
 		var cellList = [];
 		var cell = document.createElement("th");
@@ -205,12 +201,11 @@ function resetTable(){
 	var confirmed = confirm("Are you sure to reset the timetable?");
 	if (confirmed){
 		clearTable();
-		//var numberOfSessions = localStorage.getItem("numberOfSessions");
 		var table = document.getElementById("timetable");
 		for (var i = table.rows.length-1;i > 0; i--){
 			table.deleteRow(i);
 		}
-		localStorage.removeItem("numberOfSessions");
+		localStorage.removeItem("numberOfPeriods");
 		createTable();
 	}
 }

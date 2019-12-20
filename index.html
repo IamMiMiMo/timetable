@@ -8,23 +8,23 @@
 	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body onload="init()">
-	<!--mobile header-->
+	<!--header-->
 <div class="flex flex-col h-full">
-	<div class="lg:flex lg:block lg:justify-between w-screen bg-gray-800 text-white px-4 py-2">
-		<li class="flex py-2 justify-between content-center items-center lg:inline-block" onclick="hideMenu()">
+	<div class="md:flex md:block md:justify-between w-screen bg-gray-800 text-white px-4 py-2 items-center">
+		<div class="flex justify-between content-center items-center md:inline-block" onclick="hideMenu()">
 			<div class="inline-block text-3xl font-semibold">Timetable</div>
-			<svg class="inline-block lg:hidden fill-current w-8 h-8 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-		</li>
-		<div id="menuContent" class="hidden lg:inline-block">
+			<svg class="inline-block md:hidden fill-current w-8 h-8 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+		</div>
+		<div id="menuContent" class="hidden md:inline-block">
 			<ul>
-				<li class="block lg:inline-block py-2 lg:mx-2">
-					<button class="w-full lg:px-10 bg-transparent border border-blue-500 rounded py-2 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white flex items-center justify-center" onclick="clearTable()">
+				<li class="block md:inline-block py-2 md:mx-2">
+					<button class="w-full md:px-10 bg-transparent border border-blue-500 rounded py-2 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white flex items-center justify-center" onclick="clearTable()">
 						<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.66 15.66A8 8 0 1 1 17 10h-2a6 6 0 1 0-1.76 4.24l1.42 1.42zM12 10h8l-4 4-4-4z"/></svg>
 		  				<span>Clear</span>
 					</button>
 				</li>
-				<li class="block lg:inline-block py-2">
-					<button class="w-full lg:px-10 bg-red-500 border border-red-500 rounded py-2 text-white font-semibold hover:bg-red-700 hover:text-white flex items-center justify-center" onclick="resetTable()">
+				<li class="block md:inline-block py-2">
+					<button class="w-full md:px-10 bg-red-500 border border-red-500 rounded py-2 text-white font-semibold hover:bg-red-700 hover:text-white flex items-center justify-center" onclick="resetTable()">
 						<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg>
 		  				<span>Reset</span>
 					</button>
@@ -32,29 +32,13 @@
 			</ul>
 		</div>
 	</div>
-	<!--end of mobile header-->
-	<!--start of header-->
-	<div class="w-full hidden lg:hidden bg-gray-200">
-		<div class="flex-row w-full justify-center lg:justify-end hidden lg:flex">
-				<button class="w-5/12 lg:w-auto lg:px-10 bg-transparent border border-blue-500 rounded py-2 mt-4 mr-4 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white inline-flex items-center justify-center" onclick="clearTable()">
-					<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.66 15.66A8 8 0 1 1 17 10h-2a6 6 0 1 0-1.76 4.24l1.42 1.42zM12 10h8l-4 4-4-4z"/></svg>
-	  				<span>Clear</span>
-				</button>
-				<button class="w-5/12 lg:w-auto lg:px-10 bg-red-500 border border-red-500 rounded py-2 mt-4 ml-4 text-white font-semibold hover:bg-red-700 hover:text-white inline-flex items-center justify-center" onclick="resetTable()">
-					<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg>
-	  				<span>Reset</span>
-				</button>
-			</div>
-	</div>
 	<!--end of header-->
-
 	<!--start of content-->
-	<div class="flex flex-col-reverse lg:flex-row w-full flex-grow overflow-hidden h-full">
-		<div id="optionColumn" class="w-full lg:w-3/12 overflow-y-auto h-full">
-			<!--to be filled by Javascript-->
-		</div>
-		<div id="calanderColumn" class="w-full lg:w-9/12 flex flex-col items-center px-4 overflow-y-auto h-full">
-			<div class="overflow-x-auto overflow-y-auto lg:overflow-x-hidden w-full flex-grow lg:px-1 my-2">
+	<div class="flex flex-col justify-start md:flex-row-reverse w-full flex-grow overflow-hidden h-full">
+
+
+		<div id="calanderColumn" class="w-full md:w-9/12 flex flex-col items-center px-2 overflow-y-auto max-h-6-12 md:max-h-full">
+			<div class="overflow-x-auto overflow-y-auto md:overflow-x-hidden w-full md:px-1 my-2">
 				<table id="timetable" class="table-auto w-full leftmost-col-fixed">
 					<tr>
 						<th class="sticky top-0 bg-white z-10"></th>
@@ -70,6 +54,77 @@
 				</table>
 			</div>
 		</div>
+
+
+		<div id="optionForm" class="w-full md:w-3/12 overflow-y-auto md:min-h-6-12">
+			<div class="w-full">
+  				<form class="bg-white shadow rounded px-8 pt-6 pb-8" name="courseForm">
+  					<div class="mb-4">
+					    <label class="block text-gray-700 text-sm font-bold mb-2">
+					    	Course Name
+					    </label>
+					    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="RAND1001" name="courseName">
+					</div>
+
+					<div class="mb-4" id="periodCheckbox">
+					    <label class="block text-gray-700 text-sm font-bold mb-2">
+							Period
+						</label>
+					</div>
+
+				    <div class="mb-4">
+					    <label class="block text-gray-700 text-sm font-bold mb-2">
+							Day
+						</label>
+						<div class="block">
+						    <input class="leading-tight" type="checkbox" id="monCheckbox" name="dayCheckbox">
+						        <label class="text-sm select-none" for="monCheckbox">Monday</label>
+						    </input>
+						</div>
+						<div class="block">
+					    	<input class="leading-tight" type="checkbox" id="tueCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="tueCheckbox">Tuesday</label>
+					    	</input>
+					    </div>
+					    <div class="block">
+					    	<input class="leading-tight" type="checkbox" id="wedCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="wedCheckbox">Wednesday</label>
+					    	</input>
+					    </div>
+					    <div class="block">
+					    	<input class="leading-tight" type="checkbox" id="thurCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="thurCheckbox">Thursday</label>
+					    	</input>
+					    </div>
+					    <div class="block">
+					    	<input class="leading-tight" type="checkbox" id="friCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="friCheckbox">Friday</label>
+					    	</input>
+					    </div>
+					    <div class="block">
+					    	<input class="leading-tight" type="checkbox" id="satCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="satCheckbox">Saturday</label>
+					    	</input>
+					    </div>
+					    <div class="block">
+					    	<input class="leading-tight" type="checkbox" id="sunCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="sunCheckbox">Sunday</label>
+					    	</input>
+				        </div>
+					</div>
+
+					<div class="">
+				       	<button type="button" class="rounded px-4 py-2 bg-blue-500 text-white w-full" onclick="addToCourseList()">Add</button>
+				    </div>
+
+  				</form>
+  								    
+  			</div>
+  			<div id="optionColumn" class="w-full">
+			<!--to be filled by Javascript-->
+			</div>
+		</div>
+
 	</div>
 	<!--end of content-->
 </div>
