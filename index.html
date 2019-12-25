@@ -9,6 +9,26 @@
 </head>
 <body onload="init()">
 	<!--header-->
+<div class="absolute inset-0 z-20 dark-transparent flex items-center justify-center hidden" id="createTableForm">
+	<div class="rounded bg-white p-4 m-4">
+		<div class="block mb-4">
+	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
+	    	Enter number of lessons:
+	    	</label>
+	    	<input class="shadow appearance-none border rounded w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" type="text" placeholder="10" id="numberOfLesson">
+	    </div>
+	    <div class="block mb-4">
+	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
+	    	Enter length of a lessons (minutes):
+	    	</label>
+	    	<input class="shadow appearance-none border rounded w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" type="text" placeholder="90" name="">
+	    </div>
+	    <button type="button" class="rounded px-4 py-2 bg-blue-500 text-white w-full flex items-center justify-center" onclick="createTableButton()">
+			<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+		    Create table
+		</button>
+	</div>
+</div>
 <div class="flex flex-col h-full">
 	<div class="md:flex md:block md:justify-between w-screen bg-gray-800 text-white px-4 py-2 items-center">
 		<div class="flex justify-between content-center items-center md:inline-block" onclick="hideMenu()">
@@ -18,7 +38,7 @@
 		<div id="menuContent" class="hidden md:inline-block">
 			<ul>
 				<li class="block md:inline-block py-2 md:mx-2">
-					<button class="w-full md:px-10 bg-transparent border border-blue-500 rounded py-2 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white flex items-center justify-center" onclick="clearTable()">
+					<button class="w-full md:px-10 bg-transparent border border-blue-500 rounded py-2 text-blue-500 font-semibold hover:bg-blue-500 hover:text-white flex items-center justify-center" onclick="cleanTable()">
 						<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.66 15.66A8 8 0 1 1 17 10h-2a6 6 0 1 0-1.76 4.24l1.42 1.42zM12 10h8l-4 4-4-4z"/></svg>
 		  				<span>Clear</span>
 					</button>
@@ -38,17 +58,17 @@
 
 
 		<div id="calanderColumn" class="w-full md:w-9/12 flex flex-col items-center px-2 overflow-y-auto max-h-6-12 md:max-h-full">
-			<div class="overflow-x-auto overflow-y-auto md:overflow-x-hidden w-full md:px-1 my-2">
+			<div class="overflow-x-auto overflow-y-auto w-full md:px-1 my-2">
 				<table id="timetable" class="table-auto w-full leftmost-col-fixed">
 					<tr>
 						<th class="sticky top-0 bg-white z-10"></th>
-						<th class="py-2 px-4 sticky top-0 bg-white z-10">Monday</th>
+						<th class="py-2 px-4 sticky top-0 bg-white z-10">Sunday</th>
+						<th class="py-4 px-4 sticky top-0 bg-white z-10">Monday</th>
 						<th class="py-2 px-4 sticky top-0 bg-white z-10">Tuesday</th>
 						<th class="py-2 px-4 sticky top-0 bg-white z-10">Wednesday</th>
 						<th class="py-2 px-4 sticky top-0 bg-white z-10">Thursday</th>
 						<th class="py-2 px-4 sticky top-0 bg-white z-10">Friday</th>
 						<th class="py-2 px-4 sticky top-0 bg-white z-10">Saturaday</th>
-						<th class="py-4 px-4 sticky top-0 bg-white z-10">Sunday</th>
 					</tr>
 				  		<!--to be filled by Javascript-->
 				</table>
@@ -76,6 +96,11 @@
 					    <label class="block text-gray-700 text-sm font-bold mb-2">
 							Day
 						</label>
+						<div class="block">
+					    	<input class="leading-tight" type="checkbox" id="sunCheckbox" name="dayCheckbox">
+					        	<label class="text-sm select-none" for="sunCheckbox">Sunday</label>
+					    	</input>
+				        </div>
 						<div class="block">
 						    <input class="leading-tight" type="checkbox" id="monCheckbox" name="dayCheckbox">
 						        <label class="text-sm select-none" for="monCheckbox">Monday</label>
@@ -106,15 +131,10 @@
 					        	<label class="text-sm select-none" for="satCheckbox">Saturday</label>
 					    	</input>
 					    </div>
-					    <div class="block">
-					    	<input class="leading-tight" type="checkbox" id="sunCheckbox" name="dayCheckbox">
-					        	<label class="text-sm select-none" for="sunCheckbox">Sunday</label>
-					    	</input>
-				        </div>
 					</div>
 
 					<div class="">
-				       	<button type="button" class="rounded px-4 py-2 bg-blue-500 text-white w-full" onclick="addToCourseList()">Add</button>
+				       	<button type="button" class="rounded px-4 py-2 bg-blue-500 text-white w-full" onclick="addCourse()">Add</button>
 				    </div>
 
   				</form>
