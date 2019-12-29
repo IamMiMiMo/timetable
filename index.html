@@ -10,18 +10,24 @@
 <body onload="init()">
 	<!--header-->
 <div class="absolute inset-0 z-20 dark-transparent flex items-center justify-center hidden" id="createTableForm">
-	<div class="rounded bg-white p-4 m-4">
-		<div class="block mb-4">
-	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
-	    	Enter number of lessons:
-	    	</label>
-	    	<input class="shadow appearance-none border rounded w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" type="text" placeholder="10" id="numberOfLesson">
-	    </div>
+	<div class="rounded bg-white p-4">
 	    <div class="block mb-4">
 	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
 	    	Enter length of a lessons (minutes):
 	    	</label>
-	    	<input class="shadow appearance-none border rounded w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" type="text" placeholder="90" name="">
+	    	<input class="shadow appearance-none border rounded w-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full" type="text" placeholder="90" id="lessonInterval" name="lessonInterval">
+	    </div>
+	    <div class="flex mb-4 flex-col items-center">
+	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
+	    	Enter the start time:
+	    	</label>
+	    	<input class="rounded border border-gray-200 shadow focus:outline-none focus:shadow-outline" type="time" id="startTime" name="startTime" value="08:00" step="300">
+	    </div>
+	    <div class="flex mb-4 flex-col items-center">
+	    	<label class="block w-auto text-gray-700 text-sm font-bold mb-2 text-center">
+	    	Enter the end time:
+	    	</label>
+	    	<input class="rounded border border-gray-200 shadow focus:outline-none focus:shadow-outline" type="time" id="endTime" name="startTime" value="18:30" step="300">
 	    </div>
 	    <button type="button" class="rounded px-4 py-2 bg-blue-500 text-white w-full flex items-center justify-center" onclick="createTableButton()">
 			<svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
@@ -148,6 +154,18 @@
 	</div>
 	<!--end of content-->
 </div>
+
+	<!-- alert component-->
+
+	<div id="alertBanner"class="absolute inset-x-0 top-0 bg-teal-100 border-teal-500 text-teal-900 px-4 py-3 shadow-md z-20 hidden" role="alert">
+		<div class="flex justify-center">
+	    	<p id="alertMessage" class="font-bold"></p>
+	  	</div>
+		</div>
+	</div>
+
+	<!-- end of alert-->
+
 	<script src="script.js"></script>
 </body>
 </html>

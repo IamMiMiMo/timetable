@@ -1,4 +1,4 @@
-var colorList = ["gray","red","orange","yellow","green","teal","blue","indigo","purple","pink"];
+const COLORLIST = ["gray","red","orange","yellow","green","teal","blue","indigo","purple","pink"];
 const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thurday","Friday","Saturday"];
 var courseList = [
 	/*{
@@ -13,13 +13,14 @@ var courseList = [
 
 function init(){
 	courseList = JSON.parse(localStorage.getItem("courseList"));
-	var numberOfLesson = JSON.parse(localStorage.getItem("numberOfLesson"));
-	if (courseList == null || numberOfLesson == null){
+	var timeObj = JSON.parse(localStorage.getItem("timeObj"));
+	if (courseList == null || timeObj == null){
 		courseList = [];
 		showCreateTableForm();
 	}else{
+		var numberOfLesson = calculateNumberOfLesson(timeObj.startTime, timeObj.endTime, timeObj.interval);
 		createTable(numberOfLesson);
-		initPeriodCheckbox(numberOfLesson);
+		calculateNumberOfLesson(numberOfLesson);
 		loadTimetable(courseList);
 		loadHistory(courseList);
 	}
@@ -28,12 +29,19 @@ function init(){
 //after clicked the "create table" button
 
 function createTableButton(){
+	var startTime = document.getElementById("startTime").value;
+	var endTime = document.getElementById("endTime").value;
+	var interval = parseInt(document.getElementById("lessonInterval").value);
+	if (isNaN(interval)){
+		notify("red","Invalid interval");
+		return;
+	}
 	document.getElementById('createTableForm').classList.replace('block','hidden');
-	var numberOfLesson = document.getElementById('numberOfLesson').value;
-	localStorage.setItem("numberOfLesson",numberOfLesson);
+	var timeObj = {startTime:startTime, endTime:endTime, interval:interval}
+	localStorage.setItem("timeObj",JSON.stringify(timeObj));
+	var numberOfLesson = calculateNumberOfLesson(timeObj.startTime, timeObj.endTime, timeObj.interval);
 	saveCourseList();
 	createTable(numberOfLesson);
-	initPeriodCheckbox(numberOfLesson);
 }
 
 //load from courseList variable
@@ -46,7 +54,7 @@ function createTable(lessons){
 		var cell = document.createElement("th");
     	cellList[0] = newRow.appendChild(cell);
 		//cellList[0] = row.insertCell(0);
-		cellList[0].innerHTML = "P" + row;
+		cellList[0].innerHTML = document.getElementById("checkboxP" + (row-1) + "Label").innerHTML;
 		cellList[0].classList.add("border","px-4","py-2","text-center","py-4","left-0","bg-white","sticky","border-separate");
 		for (var col = 1; col < table.rows[0].cells.length; col++){
 			cellList[col]  = newRow.insertCell(col);
@@ -96,7 +104,7 @@ function addCourse(){
 			periods.push(i+1);
 		}
 	}
-	var color = colorList[random(0,9)];
+	var color = COLORLIST[random(0,9)];
 	//remove duplicated or collided course exist in timetable
 	checkDuplicate(form.courseName);
 	checkCollide(days,periods);
@@ -133,6 +141,26 @@ function checkCollide(dayList,periodList){
 			}
 		}
 	}
+}
+
+//time component
+
+function calculateNumberOfLesson(startTime,endTime,interval){
+	startTime += '';
+	endTime += '';
+	var startTimeArray = startTime.split(":").map(Number);
+	var endTimeArray = endTime.split(":").map(Number);
+	var counter = 0;
+	var startTime;
+	while(endTimeArray[0]*60+endTimeArray[1] > startTimeArray[0]*60+startTimeArray[1]){
+		var beginTime = startTime; //save current startTime to begin time
+		startTime = AddMinutes(startTime,interval); // return string and find the next start time / current end time
+		initPeriodCheckbox(counter,beginTime,startTime);
+		counter++;
+		console.log(startTime);
+		startTimeArray = startTime.split(":").map(Number);
+	}
+	return counter;
 }
 
 //removal
@@ -179,7 +207,7 @@ function cleanTable(){
 function resetTable(){
 	courseList = null;
 	localStorage.removeItem("courseList");
-	localStorage.removeItem("numberOfLesson");
+	localStorage.removeItem("timeObj");
 	var table = document.getElementById("timetable");
 	for (var i = table.rows.length-1;i > 0; i--){
 		table.deleteRow(i);
@@ -214,12 +242,10 @@ function hideMenu(){
 	}
 }
 
-function initPeriodCheckbox(lessons){
-	var div = document.getElementById("periodCheckbox")
-	for (var i=0; i<lessons; i++){
-		div.innerHTML += '<div class="block"><input class="leading-tight mr-2" type="checkbox" id="checkboxP' + i +'" name="periodCheckbox"><label class="text-sm select-none" for="checkboxP'
-			+ i + '">P' + (i+1) +'</label></input></div>'
-	}
+function initPeriodCheckbox(index,startTime,endTime){
+	var div = document.getElementById("periodCheckbox");
+	div.innerHTML += '<div class="block"><input class="leading-tight mr-2" type="checkbox" id="checkboxP' + index +'" name="periodCheckbox"><label id="checkboxP' + index +'Label" class="text-sm select-none" for="checkboxP'
+		+ index + '">' + startTime + '-' + endTime +'</label></input></div>';
 }
 
 
@@ -244,4 +270,34 @@ function course(course,day,period,color){
 function removeClassStartWith(prefix,el){
 	var classes = el.className.split(" ").filter(c => !c.startsWith(prefix));
 	el.className = classes.join(" ").trim();
+}
+
+function AddMinutes(startTime, minutes) {
+	//var minutes = parseInt(minutes);
+    var startTimeArray = startTime.split(":").map(Number);
+    var m = (startTimeArray[1] + minutes) % 60;
+    var h = startTimeArray[0] + Math.floor( (startTimeArray[1] + minutes) / 60);
+    if (m < 10){
+    	m = '0' + m;
+    }
+    if (h < 10){
+    	h = '0' + h;
+    }
+    return h + ":" + m;
+}
+
+function notify(color,message){
+	var alertBanner = document.getElementById("alertBanner");
+	if (alertBanner.classList.contains("block")){
+		alertBanner.classList.replace("hidden","block");
+	}
+	removeClassStartWith("bg-",alertBanner);
+	removeClassStartWith("border-",alertBanner);
+	removeClassStartWith("text-",alertBanner);
+	alertBanner.classList.add("bg-" + color + "-100");
+	alertBanner.classList.add("border-" + color + "-500");
+	alertBanner.classList.add("text-" + color + "-900");
+	document.getElementById("alertMessage").innerHTML = message;
+	alertBanner.classList.replace("hidden","block");
+	setTimeout(function(){alertBanner.classList.replace("block","hidden");timing = null; }, 3000);
 }
