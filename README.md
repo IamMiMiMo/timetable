@@ -23,7 +23,7 @@ You can download and run without setting up a webserver.
 
 ### Planned functions/features
 - [x] Add course using form input
-- [ ] Custom period length
+- [x] Custom period length
 - [ ] Custom course color
 - [ ] Import and export timetable
 - [ ] Read file to add courses(e.g. PDF, TXT)
